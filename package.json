@@ -1,0 +1,22 @@
+{
+  "name": "atomic-arb-base",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "axios": "^1.16.1",
+    "dotenv": "^16.4.5",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1"
+  }
+}
