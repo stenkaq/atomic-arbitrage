@@ -1,5 +1,5 @@
-import { AlchemyGateway } from "../infrastucture/alchemy-gateway.js";
-import { GraphStudioGateway } from "../infrastucture/graph-studio-gateway.js";
+import { AlchemyGateway } from "../../infrastucture/pools/alchemy-gateway.js";
+import { GraphStudioGateway } from "../../infrastucture/pools/graph-studio-gateway.js";
 import { PoolManager } from "./pool-manager.js";
 import { UniswapV3PoolImpl } from "./pool.js";
 

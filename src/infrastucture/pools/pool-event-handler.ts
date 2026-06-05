@@ -7,7 +7,7 @@ import {
   decodeEventLog,
 } from "viem";
 import { mainnet } from "viem/chains";
-import type { PoolManager } from "../domain/pool-manager.js";
+import type { PoolManager } from "../../domain/pools/pool-manager.js";
 
 const POOL_ABI = parseAbi([
   "event Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick)",

@@ -1,9 +1,9 @@
 import { appConfig } from "@/config/config.js";
-import { AlchemyGatewayImpl } from "./infrastucture/alchemy-gateway.js";
-import { GraphStudioGatewayImpl } from "./infrastucture/graph-studio-gateway.js";
-import { PoolManagerImpl } from "./domain/pool-manager.js";
-import { PoolServiceImpl } from "./domain/pool-service.js";
-import { PoolEventHandler } from "./infrastucture/pool-event-handler.js";
+import { AlchemyGatewayImpl } from "./pools/alchemy-gateway.js";
+import { GraphStudioGatewayImpl } from "./pools/graph-studio-gateway.js";
+import { PoolManagerImpl } from "../domain/pools/pool-manager.js";
+import { PoolServiceImpl } from "../domain/pools/pool-service.js";
+import { PoolEventHandler } from "./pools/pool-event-handler.js";
 
 export async function bootstrap() {
   const graphStudio = new GraphStudioGatewayImpl(appConfig.graphStudio);
