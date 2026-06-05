@@ -13,6 +13,8 @@ export interface SubgraphConfig {
 
 export interface AlchemyConfig {
   apiKey: string;
+  rpcUrl: string;
+  wsUrl: string;
 }
 
 export interface AppConfig {
@@ -40,5 +42,7 @@ export const appConfig: AppConfig = {
   },
   alchemy: {
     apiKey: getEnv("ALCHEMY_API_KEY"),
+    rpcUrl: getEnv("ALCHEMY_RPC_URL"),
+    wsUrl: getEnv("ALCHEMY_WS_URL")
   },
 };
