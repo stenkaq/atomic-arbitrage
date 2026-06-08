@@ -18,9 +18,9 @@ export interface AlchemyConfig {
 }
 
 export interface AppConfig {
-  graphStudio: GraphStudioConfig;
-  subgraph: SubgraphConfig;
-  alchemy: AlchemyConfig;
+  graphStudioConfig: GraphStudioConfig;
+  subgraphConfig: SubgraphConfig;
+  alchemyConfig: AlchemyConfig;
 }
 
 function getEnv(key: string): string {
@@ -33,16 +33,16 @@ function getEnv(key: string): string {
 }
 
 export const appConfig: AppConfig = {
-  graphStudio: {
+  graphStudioConfig: {
     apiKey: getEnv("GRAPH_STUDIO_API_KEY"),
     url: getEnv("SUBGRAPH_URL"),
   },
-  subgraph: {
+  subgraphConfig: {
     baseId: getEnv("SUBGRAPH_ID"),
   },
-  alchemy: {
+  alchemyConfig: {
     apiKey: getEnv("ALCHEMY_API_KEY"),
     rpcUrl: getEnv("ALCHEMY_RPC_URL"),
-    wsUrl: getEnv("ALCHEMY_WS_URL")
+    wsUrl: getEnv("ALCHEMY_WS_URL"),
   },
 };

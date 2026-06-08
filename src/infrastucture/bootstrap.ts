@@ -6,8 +6,8 @@ import { PoolServiceImpl } from "../domain/pools/pool-service.js";
 import { PoolEventHandler } from "./pools/pool-event-handler.js";
 
 export async function bootstrap() {
-  const graphStudio = new GraphStudioGatewayImpl(appConfig.graphStudio);
-  const alchemy = new AlchemyGatewayImpl(appConfig.alchemy);
+  const graphStudio = new GraphStudioGatewayImpl(appConfig);
+  const alchemy = new AlchemyGatewayImpl(appConfig.alchemyConfig);
   const poolManager = new PoolManagerImpl();
 
   const poolService = new PoolServiceImpl(graphStudio, alchemy, poolManager);
@@ -15,7 +15,7 @@ export async function bootstrap() {
 
   const eventHandler = new PoolEventHandler(
     poolManager,
-    appConfig.alchemy.wsUrl,
+    appConfig.alchemyConfig.wsUrl,
   );
   eventHandler.start();
 }

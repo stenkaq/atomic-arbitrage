@@ -1,13 +1,21 @@
-import { GraphStudioConfig } from "@/config/config.js";
+import { AppConfig, GraphStudioConfig } from "@/config/config.js";
 import axios from "axios";
 import { PoolData } from "./types.js";
+import { formatUrl } from "@/utils/url-helper.js";
 
 export interface GraphStudioGateway {
   getTopPools(): Promise<PoolData[]>;
 }
 
 export class GraphStudioGatewayImpl implements GraphStudioGateway {
-  constructor(private readonly config: GraphStudioConfig) {}
+  private url: string;
+
+  constructor(private readonly config: AppConfig) {
+    this.url = formatUrl(this.config.graphStudioConfig.url, [
+      this.config.graphStudioConfig.apiKey,
+      this.config.subgraphConfig.baseId,
+    ]);
+  }
 
   async getTopPools(): Promise<PoolData[]> {
     const query = `
@@ -32,13 +40,12 @@ export class GraphStudioGatewayImpl implements GraphStudioGateway {
 
     try {
       const response = await axios.post(
-        this.config.url,
+        this.url,
         {
           query,
         },
         {
           headers: {
-            Authorization: `Bearer ${this.config.apiKey}`,
             "Content-Type": "application/json",
           },
         },
