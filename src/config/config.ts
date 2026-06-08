@@ -1,6 +1,6 @@
 import { configDotenv } from "dotenv";
 
-configDotenv({ path: "/.env" });
+configDotenv();
 
 export interface GraphStudioConfig {
   apiKey: string;
