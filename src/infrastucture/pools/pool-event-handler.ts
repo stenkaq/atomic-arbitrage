@@ -52,6 +52,10 @@ export class PoolEventHandler {
         data: log.data,
         topics: log.topics,
       });
+
+      console.log(
+        `[PoolEventHandler.dispatch] Got event: ${decodedEvent.eventName}`,
+      );
     } catch {
       return;
     }
