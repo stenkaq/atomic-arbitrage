@@ -11,7 +11,7 @@ const UniswapV3PoolABI = parseAbi([
 ]);
 
 export interface AlchemyGateway {
-  getPoolState(poolAddress: `0x${string}`): Promise<PoolState>;
+  getPoolState(poolAddress: `0x${string}`): Promise<PoolState | null>;
 }
 
 export class AlchemyGatewayImpl implements AlchemyGateway {
@@ -26,27 +26,36 @@ export class AlchemyGatewayImpl implements AlchemyGateway {
     });
   }
 
-  async getPoolState(poolAddress: `0x${string}`): Promise<PoolState> {
+  async getPoolState(poolAddress: `0x${string}`): Promise<PoolState | null> {
     const contractConfig = {
       address: poolAddress,
       abi: UniswapV3PoolABI,
     } as const;
 
-    const [slot0, liquidity, tickSpacing] = await this.publicClient.multicall({
-      contracts: [
-        { ...contractConfig, functionName: "slot0" },
-        { ...contractConfig, functionName: "liquidity" },
-        { ...contractConfig, functionName: "tickSpacing" },
-      ],
+    const [slot0Result, liquidityResult, tickSpacingResult] =
+      await this.publicClient.multicall({
+        contracts: [
+          { ...contractConfig, functionName: "slot0" },
+          { ...contractConfig, functionName: "liquidity" },
+          { ...contractConfig, functionName: "tickSpacing" },
+        ],
 
-      allowFailure: false,
-    });
+        allowFailure: true,
+      });
+
+    if (
+      slot0Result.status === "failure" ||
+      liquidityResult.status === "failure" ||
+      tickSpacingResult.status === "failure"
+    ) {
+      return null;
+    }
 
     return {
-      tickSpacing: Number(tickSpacing),
-      liquidity: liquidity.toString(),
-      sqrtPriceX96: slot0[0].toString(),
-      tick: Number(slot0[1]),
+      tickSpacing: Number(tickSpacingResult.result),
+      liquidity: liquidityResult.result.toString(),
+      sqrtPriceX96: slot0Result.result[0].toString(),
+      tick: Number(slot0Result.result[1]),
     };
   }
 }

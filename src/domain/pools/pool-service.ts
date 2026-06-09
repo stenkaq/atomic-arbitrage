@@ -23,6 +23,8 @@ export class PoolServiceImpl implements PoolService {
           poolData.id as `0x${string}`,
         );
 
+        if (!state) return;
+
         this.poolManager.add(
           new UniswapV3PoolImpl({
             protocol: "uniswap_v3",
