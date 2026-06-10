@@ -1,4 +1,4 @@
-import { AppConfig } from "@/config/config.js";
+import { AppConfig } from "@/infrastucture/config/config.js";
 import axios from "axios";
 import { Pool } from "./types.js";
 import { formatUrl } from "@/utils/url-helper.js";

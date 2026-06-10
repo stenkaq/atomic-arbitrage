@@ -1,7 +1,7 @@
 import { createPublicClient, http, parseAbi, PublicClient } from "viem";
 import { mainnet } from "viem/chains";
 import { PoolState } from "./types";
-import { AlchemyConfig } from "@/config/config";
+import { AlchemyConfig } from "@/infrastucture/config/config";
 import { formatUrl } from "@/utils/url-helper";
 
 const UniswapV3PoolABI = parseAbi([

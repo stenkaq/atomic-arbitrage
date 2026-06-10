@@ -1,4 +1,4 @@
-import { appConfig } from "@/config/config.js";
+import { appConfig } from "@/infrastucture/config/config.js";
 import { AlchemyGatewayImpl } from "./pools/alchemy-gateway.js";
 import { GraphStudioGatewayImpl } from "./pools/graph-studio-gateway.js";
 import { PoolManagerImpl } from "../domain/pools/pool-manager.js";
