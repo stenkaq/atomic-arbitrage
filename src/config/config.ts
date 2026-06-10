@@ -17,10 +17,15 @@ export interface AlchemyConfig {
   wsUrl: string;
 }
 
+export interface MongoConfig {
+  uri: string;
+}
+
 export interface AppConfig {
   graphStudioConfig: GraphStudioConfig;
   subgraphConfig: SubgraphConfig;
   alchemyConfig: AlchemyConfig;
+  mongoConfig: MongoConfig;
 }
 
 function getEnv(key: string): string {
@@ -44,5 +49,8 @@ export const appConfig: AppConfig = {
     apiKey: getEnv("ALCHEMY_API_KEY"),
     rpcUrl: getEnv("ALCHEMY_RPC_URL"),
     wsUrl: getEnv("ALCHEMY_WS_URL"),
+  },
+  mongoConfig: {
+    uri: getEnv("MONGODB_URI"),
   },
 };
