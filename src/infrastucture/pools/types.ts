@@ -4,7 +4,7 @@ export interface Token {
   decimals: string;
 }
 
-export interface Pool {
+export interface UniswapV3Pool {
   id: string;
   feeTier: string;
   token0: Token;
@@ -12,7 +12,7 @@ export interface Pool {
   totalValueLockedUSD: string;
 }
 
-export interface PoolState {
+export interface UniswapV3PoolState {
   tickSpacing: number;
   liquidity: string;
   sqrtPriceX96: string;

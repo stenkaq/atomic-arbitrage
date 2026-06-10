@@ -1,11 +1,11 @@
 import { AppConfig } from "@/infrastucture/config/config.js";
 import axios from "axios";
-import { Pool } from "./types.js";
 import { formatUrl } from "@/utils/url-helper.js";
 import { GraphStudioGatewayError } from "../errors.js";
+import { UniswapV3Pool } from "./types.js";
 
 export interface GraphStudioGateway {
-  getTopPools(): Promise<Pool[]>;
+  getTopPools(): Promise<UniswapV3Pool[]>;
 }
 
 export class GraphStudioGatewayImpl implements GraphStudioGateway {
@@ -18,7 +18,7 @@ export class GraphStudioGatewayImpl implements GraphStudioGateway {
     ]);
   }
 
-  async getTopPools(): Promise<Pool[]> {
+  async getTopPools(): Promise<UniswapV3Pool[]> {
     const query = `
 {
   pools(orderBy: totalValueLockedUSD, orderDirection: desc, first: 100) {
@@ -64,7 +64,7 @@ export class GraphStudioGatewayImpl implements GraphStudioGateway {
         });
       }
 
-      const pools = response.data.data.pools;
+      const pools = response.data.data?.pools;
 
       return pools;
     } catch (e) {

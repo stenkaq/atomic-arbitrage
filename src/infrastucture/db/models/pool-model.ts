@@ -6,8 +6,8 @@ interface Token {
   decimals: string;
 }
 
-interface Pool {
-  _id: string;
+interface UniswapV3Pool {
+  id: string;
   feeTier: string;
   token0: Token;
   token1: Token;
@@ -23,12 +23,12 @@ const TokenSchema = new Schema<Token>(
   { _id: false },
 );
 
-const PoolSchema = new Schema<Pool>({
-  _id: { type: String, required: true },
+const UniswapV3PoolSchema = new Schema<UniswapV3Pool>({
+  id: { type: String, required: true },
   feeTier: { type: String, required: true },
   token0: { type: TokenSchema, required: true },
   token1: { type: TokenSchema, required: true },
   totalValueLockedUSD: { type: String, required: true },
 });
 
-export const PoolModel = mongoose.model<Pool>("Pool", PoolSchema);
+export const UniswapV3PoolModel = mongoose.model<UniswapV3Pool>("UniswapV3Pool", UniswapV3PoolSchema);

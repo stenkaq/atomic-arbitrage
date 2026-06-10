@@ -7,7 +7,7 @@ import {
   decodeEventLog,
 } from "viem";
 import { mainnet } from "viem/chains";
-import type { PoolManager } from "../../domain/pools/pool-manager.js";
+import type { UniswapV3PoolManager } from "../../domain/pools/pool-manager.js";
 
 const POOL_ABI = parseAbi([
   "event Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick)",
@@ -16,13 +16,13 @@ const POOL_ABI = parseAbi([
   "event Initialize(uint160 sqrtPriceX96, int24 tick)",
 ]);
 
-export class PoolEventHandler {
+export class UniswapV3PoolEventHandler {
   private client: ReturnType<typeof createPublicClient>;
   private lastUpdatedBlock = new Map<string, bigint>();
   private coldPoolQueue = new Set<string>();
 
   constructor(
-    private readonly poolManager: PoolManager,
+    private readonly poolManager: UniswapV3PoolManager,
     private readonly wsUrl: string,
   ) {
     this.client = createPublicClient({
