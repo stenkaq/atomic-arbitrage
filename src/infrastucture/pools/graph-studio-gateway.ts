@@ -1,7 +1,8 @@
-import { AppConfig, GraphStudioConfig } from "@/config/config.js";
+import { AppConfig } from "@/config/config.js";
 import axios from "axios";
 import { PoolData } from "./types.js";
 import { formatUrl } from "@/utils/url-helper.js";
+import { GraphStudioGatewayError } from "../errors.js";
 
 export interface GraphStudioGateway {
   getTopPools(): Promise<PoolData[]>;
@@ -51,11 +52,29 @@ export class GraphStudioGatewayImpl implements GraphStudioGateway {
         },
       );
 
+      if (response.data.errors) {
+        const message = response.data.errors
+          .map(
+            (err: { message?: string }) => err.message ?? JSON.stringify(err),
+          )
+          .join("; ");
+        throw new GraphStudioGatewayError({
+          message: message,
+          source: this.getTopPools.name,
+        });
+      }
+
       const pools = response.data.data.pools;
 
       return pools;
     } catch (e) {
-      throw new Error("[GraphStudioGateway.getTopPools]: Error", { cause: e });
+      if (e instanceof GraphStudioGatewayError) {
+        throw e;
+      }
+      throw new GraphStudioGatewayError({
+        message: e instanceof Error ? e.message : String(e),
+        source: this.getTopPools.name,
+      });
     }
   }
 }
