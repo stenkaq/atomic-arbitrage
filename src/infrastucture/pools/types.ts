@@ -4,7 +4,7 @@ export interface Token {
   decimals: string;
 }
 
-export interface PoolData {
+export interface Pool {
   id: string;
   feeTier: string;
   token0: Token;
