@@ -7,6 +7,7 @@ import { AlchemyGatewayImpl } from "@/infrastucture/pools/alchemy-gateway";
 import { GraphStudioGatewayImpl } from "@/infrastucture/pools/graph-studio-gateway";
 import { UniswapV3PoolEventHandler } from "@/infrastucture/pools/pool-event-handler";
 import { UniswapV3PoolRepository } from "@/infrastucture/pools/repository/pool-repository";
+import { formatUrl } from "@/utils/url-helper";
 
 export async function bootstrap() {
   await initDb(appConfig.mongoConfig.uri);
@@ -26,7 +27,7 @@ export async function bootstrap() {
 
   const eventHandler = new UniswapV3PoolEventHandler(
     poolService,
-    appConfig.alchemyConfig.wsUrl,
+    formatUrl(appConfig.alchemyConfig.wsUrl, [appConfig.alchemyConfig.apiKey]),
   );
   eventHandler.start();
 }
