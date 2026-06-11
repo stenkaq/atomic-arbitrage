@@ -7,7 +7,7 @@ import {
   type DecodeEventLogReturnType,
   decodeEventLog,
 } from "viem";
-import { mainnet } from "viem/chains";
+import { base } from "viem/chains";
 
 const POOL_ABI = parseAbi([
   "event Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick)",
@@ -17,7 +17,8 @@ const POOL_ABI = parseAbi([
 ]);
 
 export class UniswapV3PoolEventHandler {
-  private client: ReturnType<typeof createPublicClient>;
+  private readonly publicClient;
+
   private lastUpdatedBlock = new Map<string, bigint>();
   private coldPoolQueue = new Set<string>();
 
@@ -25,14 +26,17 @@ export class UniswapV3PoolEventHandler {
     private readonly poolService: UniswapV3PoolService,
     private readonly wsUrl: string,
   ) {
-    this.client = createPublicClient({
-      chain: mainnet,
+    this.publicClient = createPublicClient({
+      chain: base,
       transport: webSocket(this.wsUrl),
     });
   }
 
   start(): void {
-    this.client.watchEvent({
+    const addresses = this.poolService.addresses() as `0x${string}`[];
+
+    this.publicClient.watchEvent({
+      address: addresses,
       events: POOL_ABI,
       onLogs: (logs) => {
         for (const log of logs) this.dispatch(log);
