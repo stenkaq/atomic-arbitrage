@@ -2,7 +2,7 @@ import { createPublicClient, http, parseAbi, PublicClient } from "viem";
 import { mainnet } from "viem/chains";
 import { AlchemyConfig } from "@/infrastucture/config/config";
 import { formatUrl } from "@/utils/url-helper";
-import { UniswapV3PoolState } from "@/external/domain/pools/types";
+import { ExternalUniswapV3PoolData } from "@/external/domain/pools/types";
 
 const UniswapV3PoolABI = parseAbi([
   "function slot0() external view returns (uint160 sqrtPriceX96, int24 tick, uint16 observationIndex, uint16 observationCardinality, uint16 observationCardinalityNext, uint8 feeProtocol, bool unlocked)",
@@ -11,7 +11,9 @@ const UniswapV3PoolABI = parseAbi([
 ]);
 
 export interface AlchemyGateway {
-  getPoolState(poolAddress: `0x${string}`): Promise<UniswapV3PoolState | null>;
+  getPoolData(
+    poolAddress: `0x${string}`,
+  ): Promise<ExternalUniswapV3PoolData | null>;
 }
 
 export class AlchemyGatewayImpl implements AlchemyGateway {
@@ -26,9 +28,9 @@ export class AlchemyGatewayImpl implements AlchemyGateway {
     });
   }
 
-  async getPoolState(
+  async getPoolData(
     poolAddress: `0x${string}`,
-  ): Promise<UniswapV3PoolState | null> {
+  ): Promise<ExternalUniswapV3PoolData | null> {
     const contractConfig = {
       address: poolAddress,
       abi: UniswapV3PoolABI,

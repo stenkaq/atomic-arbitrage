@@ -1,4 +1,3 @@
-import { UniswapV3PoolManager } from "@/domain/pools/pool-manager";
 import { UniswapV3PoolServiceImpl } from "@/domain/pools/service";
 import { appConfig } from "@/infrastucture/config/config";
 import { initDb } from "@/infrastucture/db/bootstrap";
@@ -13,19 +12,17 @@ export async function bootstrap() {
 
   const graphStudio = new GraphStudioGatewayImpl(appConfig);
   const alchemy = new AlchemyGatewayImpl(appConfig.alchemyConfig);
-  const poolManager = new UniswapV3PoolManager();
   const poolRepository = new UniswapV3PoolRepository(UniswapV3PoolModel);
 
   const poolService = new UniswapV3PoolServiceImpl(
     graphStudio,
     alchemy,
-    poolManager,
     poolRepository,
   );
-  await poolService.getPools();
+  await poolService.getTopPools();
 
   const eventHandler = new UniswapV3PoolEventHandler(
-    poolManager,
+    poolService,
     appConfig.alchemyConfig.wsUrl,
   );
   eventHandler.start();

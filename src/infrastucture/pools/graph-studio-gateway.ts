@@ -1,11 +1,11 @@
-import { UniswapV3Pool } from "@/external/domain/pools/types";
+import { ExternalUniswapV3Pool } from "@/external/domain/pools/types";
 import { AppConfig } from "@/infrastucture/config/config";
 import { GraphStudioGatewayError } from "@/infrastucture/errors";
 import { formatUrl } from "@/utils/url-helper";
 import axios from "axios";
 
 export interface GraphStudioGateway {
-  getTopPools(): Promise<UniswapV3Pool[]>;
+  getTopPools(): Promise<ExternalUniswapV3Pool[]>;
 }
 
 export class GraphStudioGatewayImpl implements GraphStudioGateway {
@@ -18,7 +18,7 @@ export class GraphStudioGatewayImpl implements GraphStudioGateway {
     ]);
   }
 
-  async getTopPools(): Promise<UniswapV3Pool[]> {
+  async getTopPools(): Promise<ExternalUniswapV3Pool[]> {
     const query = `
 {
   pools(orderBy: totalValueLockedUSD, orderDirection: desc, first: 100) {

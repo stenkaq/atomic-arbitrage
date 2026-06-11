@@ -6,12 +6,12 @@ export abstract class CustomRepository<M, T> {
   protected abstract toDomain(doc: T): M;
   protected abstract toSchema(entity: M): T;
 
-  async findAll(): Promise<M[]> {
+  async getAll(): Promise<M[]> {
     const docs = await this.model.find();
     return docs.map((doc) => this.toDomain(doc as unknown as T));
   }
 
-  async findById(id: string): Promise<M | null> {
+  async getById(id: string): Promise<M | null> {
     const doc = await this.model.findById(id);
     return doc ? this.toDomain(doc as unknown as T) : null;
   }
