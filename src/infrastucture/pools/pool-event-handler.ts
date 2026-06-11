@@ -1,4 +1,4 @@
-import { UniswapV3PoolManager } from "@/domain/pools/pool-manager";
+import { UniswapV3PoolService } from "@/domain/pools/service";
 import {
   createPublicClient,
   webSocket,
@@ -22,7 +22,7 @@ export class UniswapV3PoolEventHandler {
   private coldPoolQueue = new Set<string>();
 
   constructor(
-    private readonly poolManager: UniswapV3PoolManager,
+    private readonly poolService: UniswapV3PoolService,
     private readonly wsUrl: string,
   ) {
     this.client = createPublicClient({
@@ -83,14 +83,14 @@ export class UniswapV3PoolEventHandler {
     params: { sqrtPriceX96: bigint; liquidity: bigint; tick: number },
     blockNumber: bigint | null,
   ): void {
-    if (!this.poolManager.has(address)) {
+    if (!this.poolService.has(address)) {
       this.enqueueColdPool(address);
       return;
     }
 
     if (blockNumber !== null && this.isStale(address, blockNumber)) return;
 
-    this.poolManager.updateState(address, {
+    this.poolService.updateState(address, {
       sqrtPriceX96: params.sqrtPriceX96,
       liquidity: params.liquidity,
       tick: params.tick,
@@ -105,14 +105,14 @@ export class UniswapV3PoolEventHandler {
     params: { tickLower: number; tickUpper: number; amount: bigint },
     blockNumber: bigint | null,
   ): void {
-    if (!this.poolManager.has(address)) {
+    if (!this.poolService.has(address)) {
       this.enqueueColdPool(address);
       return;
     }
 
     if (blockNumber !== null && this.isStale(address, blockNumber)) return;
 
-    this.poolManager.updateTick(
+    this.poolService.updateTick(
       address,
       params.tickLower,
       params.tickUpper,
@@ -128,14 +128,14 @@ export class UniswapV3PoolEventHandler {
     params: { tickLower: number; tickUpper: number; amount: bigint },
     blockNumber: bigint | null,
   ): void {
-    if (!this.poolManager.has(address)) {
+    if (!this.poolService.has(address)) {
       this.enqueueColdPool(address);
       return;
     }
 
     if (blockNumber !== null && this.isStale(address, blockNumber)) return;
 
-    this.poolManager.updateTick(
+    this.poolService.updateTick(
       address,
       params.tickLower,
       params.tickUpper,
@@ -150,7 +150,7 @@ export class UniswapV3PoolEventHandler {
     address: string,
     _params: { sqrtPriceX96: bigint; tick: number },
   ): void {
-    if (!this.poolManager.has(address)) {
+    if (!this.poolService.has(address)) {
       this.enqueueColdPool(address);
     }
   }
