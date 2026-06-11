@@ -1,20 +1,6 @@
 import { UniswapV3Pool, UniswapV3PoolState } from "./pool";
 
-export interface UniswapV3PoolManager {
-  add(pool: UniswapV3Pool): void;
-  get(address: string): UniswapV3Pool;
-  has(address: string): boolean;
-  updateState(address: string, state: Partial<UniswapV3PoolState>): void;
-  updateTick(
-    address: string,
-    tickLower: number,
-    tickUpper: number,
-    liquidityDelta: bigint,
-  ): void;
-  addresses(): string[];
-}
-
-export class UniswapV3PoolManagerImpl implements UniswapV3PoolManager {
+export class UniswapV3PoolManager {
   private readonly poolMap = new Map<string, UniswapV3Pool>();
 
   add(pool: UniswapV3Pool): void {

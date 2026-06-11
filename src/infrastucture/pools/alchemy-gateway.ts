@@ -2,7 +2,7 @@ import { createPublicClient, http, parseAbi, PublicClient } from "viem";
 import { mainnet } from "viem/chains";
 import { AlchemyConfig } from "@/infrastucture/config/config";
 import { formatUrl } from "@/utils/url-helper";
-import { UniswapV3PoolState } from "./types";
+import { UniswapV3PoolState } from "@/external/domain/pools/types";
 
 const UniswapV3PoolABI = parseAbi([
   "function slot0() external view returns (uint160 sqrtPriceX96, int24 tick, uint16 observationIndex, uint16 observationCardinality, uint16 observationCardinalityNext, uint8 feeProtocol, bool unlocked)",

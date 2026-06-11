@@ -6,13 +6,6 @@ export type TickData = {
   tickSpacing: string;
 };
 
-export interface PathExplorer {
-  graph: Graph;
-  finder: PathFinder<TickData>;
-
-  findPath(fromToken: string, toToken: string): NodeId[];
-}
-
 export type Token = {
   address: string;
 };
@@ -24,7 +17,7 @@ export type Pair = {
   tickSpacing: TickData;
 };
 
-export class PathExplorerImpl implements PathExplorer {
+export class PathExplorer {
   constructor(private pairs: Pair[]) {
     this.graph = createGraph();
 

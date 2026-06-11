@@ -1,3 +1,4 @@
+import { UniswapV3PoolManager } from "@/domain/pools/pool-manager";
 import {
   createPublicClient,
   webSocket,
@@ -7,7 +8,6 @@ import {
   decodeEventLog,
 } from "viem";
 import { mainnet } from "viem/chains";
-import type { UniswapV3PoolManager } from "../../domain/pools/pool-manager.js";
 
 const POOL_ABI = parseAbi([
   "event Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick)",

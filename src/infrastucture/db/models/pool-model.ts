@@ -6,7 +6,7 @@ interface Token {
   decimals: string;
 }
 
-interface UniswapV3Pool {
+export interface UniswapV3Pool {
   id: string;
   feeTier: string;
   token0: Token;
