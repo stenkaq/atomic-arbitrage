@@ -52,6 +52,7 @@ export class UniswapV3PoolRepository extends CustomRepository<Domain, Schema> {
         symbol: pool.token1.symbol,
         decimals: pool.token1.decimals,
       },
+      tickSpacing: pool.tickSpacing,
       totalValueLockedUSD: pool.totalValueLockedUSD,
     };
   }

@@ -11,6 +11,7 @@ export interface UniswapV3Pool {
   feeTier: string;
   token0: Token;
   token1: Token;
+  tickSpacing: number;
   totalValueLockedUSD: string;
 }
 
@@ -28,7 +29,11 @@ const UniswapV3PoolSchema = new Schema<UniswapV3Pool>({
   feeTier: { type: String, required: true },
   token0: { type: TokenSchema, required: true },
   token1: { type: TokenSchema, required: true },
+  tickSpacing: { type: Number, required: true },
   totalValueLockedUSD: { type: String, required: true },
 });
 
-export const UniswapV3PoolModel = mongoose.model<UniswapV3Pool>("UniswapV3Pool", UniswapV3PoolSchema);
+export const UniswapV3PoolModel = mongoose.model<UniswapV3Pool>(
+  "UniswapV3Pool",
+  UniswapV3PoolSchema,
+);
