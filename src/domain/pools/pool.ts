@@ -26,7 +26,7 @@ export interface UniswapV3PoolStaticParams {
   token1: UniswapV3Token;
   fee: number; // (500 == 0.05% fee)
   tickSpacing: number;
-  totalValueLockedUSD: bigint;
+  totalValueLockedUSD: string;
 }
 
 export type UniswapV3PoolParams = UniswapV3PoolStaticParams & UniswapV3PoolState;
@@ -42,7 +42,7 @@ export class UniswapV3Pool {
   public readonly fee: number;
   public readonly tickSpacing: number;
 
-  public readonly totalValueLockedUSD: bigint;
+  public readonly totalValueLockedUSD: string;
 
   private _ticks: Map<string, UniswapV3PoolTick>;
   private _liquidity!: bigint;

@@ -1,5 +1,5 @@
-import { createPublicClient, http, parseAbi, PublicClient } from "viem";
-import { mainnet } from "viem/chains";
+import { createPublicClient, http, parseAbi } from "viem";
+import { base } from "viem/chains";
 import { AlchemyConfig } from "@/infrastucture/config/config";
 import { formatUrl } from "@/utils/url-helper";
 import { ExternalUniswapV3PoolData } from "@/external/domain/pools/types";
@@ -17,13 +17,13 @@ export interface AlchemyGateway {
 }
 
 export class AlchemyGatewayImpl implements AlchemyGateway {
-  publicClient: PublicClient;
+  private readonly publicClient;
 
   constructor(private readonly config: AlchemyConfig) {
     const url = formatUrl(this.config.rpcUrl, [this.config.apiKey]);
 
     this.publicClient = createPublicClient({
-      chain: mainnet,
+      chain: base,
       transport: http(url),
     });
   }

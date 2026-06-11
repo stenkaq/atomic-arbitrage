@@ -32,35 +32,35 @@ export class UniswapV3PoolServiceImpl implements UniswapV3PoolService {
     let topPools = await this.graphStudio.getTopPools();
 
     const pools = await Promise.all(
-      topPools.map(async (poolData) => {
-        const state = await this.alchemy.getPoolData(
-          poolData.id as `0x${string}`,
+      topPools.map(async (topPool) => {
+        const poolData = await this.alchemy.getPoolData(
+          topPool.id as `0x${string}`,
         );
 
-        if (!state) return;
+        if (!poolData) return;
 
         const pool = new UniswapV3Pool({
           protocol: "uniswap_v3",
-          address: poolData.id,
+          address: topPool.id,
           token0: {
-            address: poolData.token0.id,
-            symbol: poolData.token0.symbol,
-            decimals: poolData.token0.decimals,
+            address: topPool.token0.id,
+            symbol: topPool.token0.symbol,
+            decimals: topPool.token0.decimals,
           },
           token1: {
-            address: poolData.token1.id,
-            symbol: poolData.token1.symbol,
-            decimals: poolData.token1.decimals,
+            address: topPool.token1.id,
+            symbol: topPool.token1.symbol,
+            decimals: topPool.token1.decimals,
           },
-          fee: Number(poolData.feeTier),
-          tickSpacing: state.tickSpacing,
-          totalValueLockedUSD: BigInt(poolData.totalValueLockedUSD),
+          fee: Number(topPool.feeTier),
+          tickSpacing: poolData.tickSpacing,
+          totalValueLockedUSD: topPool.totalValueLockedUSD.toString(),
         });
 
         pool.syncState({
-          liquidity: BigInt(state.liquidity),
-          sqrtPriceX96: BigInt(state.sqrtPriceX96),
-          tick: state.tick,
+          liquidity: BigInt(poolData.liquidity),
+          sqrtPriceX96: BigInt(poolData.sqrtPriceX96),
+          tick: poolData.tick,
         });
 
         this.save(pool);

@@ -1,3 +1,4 @@
+import { GetTopPoolsUseCase } from "@/application/usecases/pools/getPools-usecase";
 import { UniswapV3PoolServiceImpl } from "@/domain/pools/service";
 import { appConfig } from "@/infrastucture/config/config";
 import { initDb } from "@/infrastucture/db/bootstrap";
@@ -19,7 +20,9 @@ export async function bootstrap() {
     alchemy,
     poolRepository,
   );
-  await poolService.getTopPools();
+
+  const useCase = new GetTopPoolsUseCase(poolService)
+  await useCase.execute();
 
   const eventHandler = new UniswapV3PoolEventHandler(
     poolService,

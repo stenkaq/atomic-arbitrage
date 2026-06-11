@@ -34,7 +34,7 @@ export class UniswapV3PoolRepository extends CustomRepository<Domain, Schema> {
       },
       fee: Number(doc.feeTier),
       tickSpacing: 0,
-      totalValueLockedUSD: BigInt(doc.totalValueLockedUSD),
+      totalValueLockedUSD: doc.totalValueLockedUSD,
     });
   }
 
@@ -52,7 +52,7 @@ export class UniswapV3PoolRepository extends CustomRepository<Domain, Schema> {
         symbol: pool.token1.symbol,
         decimals: pool.token1.decimals,
       },
-      totalValueLockedUSD: pool.totalValueLockedUSD.toString(),
+      totalValueLockedUSD: pool.totalValueLockedUSD,
     };
   }
 }
