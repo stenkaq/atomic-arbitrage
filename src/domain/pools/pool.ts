@@ -7,61 +7,49 @@ export interface UniswapV3PoolTick {
   liquidityGross: bigint;
   liquidityNet: bigint;
 }
+
+export interface UniswapV3Token {
+  address: string;
+  symbol: string;
+  decimals: string;
+}
 export interface UniswapV3PoolState {
   liquidity: bigint;
   sqrtPriceX96: bigint;
   tick: number;
 }
 
-export interface UniswapV3PoolParams extends UniswapV3PoolState {
+export interface UniswapV3PoolStaticParams {
   protocol: UniswapV3Protocol;
   address: string;
-  token0: string;
-  token1: string;
+  token0: UniswapV3Token;
+  token1: UniswapV3Token;
   fee: number; // (500 == 0.05% fee)
   tickSpacing: number;
-  ticks: Map<string, UniswapV3PoolTick>;
+  totalValueLockedUSD: bigint;
 }
 
-export interface UniswapV3Pool {
-  readonly protocol: UniswapV3Protocol;
-  readonly address: string;
-  readonly token0: string;
-  readonly token1: string;
-  readonly fee: number;
-  readonly tickSpacing: number;
+export type UniswapV3PoolParams = UniswapV3PoolStaticParams & UniswapV3PoolState;
 
-  readonly liquidity: bigint;
-  readonly sqrtPriceX96: bigint;
-  readonly currentTick: number;
-
-  getTick(tickIndex: string): UniswapV3PoolTick | undefined;
-  syncState(state: Partial<UniswapV3PoolState>): void;
-  applyLiquidityDelta(
-    tickLower: number,
-    tickUpper: number,
-    liquidityDelta: bigint,
-  ): void;
-}
-
-export class UniswapV3PoolImpl implements UniswapV3Pool {
+export class UniswapV3Pool {
   public readonly protocol: UniswapV3Protocol;
 
   public readonly address: string;
 
-  public readonly token0: string;
-  public readonly token1: string;
+  public readonly token0: UniswapV3Token;
+  public readonly token1: UniswapV3Token;
 
   public readonly fee: number;
   public readonly tickSpacing: number;
 
-  private _liquidity: bigint;
-  private _sqrtPriceX96: bigint;
-  private _tick: number;
+  public readonly totalValueLockedUSD: bigint;
 
-  private readonly _ticks: Map<string, UniswapV3PoolTick>;
+  private _ticks: Map<string, UniswapV3PoolTick>;
+  private _liquidity!: bigint;
+  private _sqrtPriceX96!: bigint;
+  private _tick!: number;
 
-  constructor(params: UniswapV3PoolParams) {
+  constructor(params: UniswapV3PoolStaticParams) {
     this.protocol = params.protocol;
     this.address = params.address.toLowerCase();
 
@@ -71,11 +59,19 @@ export class UniswapV3PoolImpl implements UniswapV3Pool {
     this.fee = params.fee;
     this.tickSpacing = params.tickSpacing;
 
-    this._liquidity = params.liquidity;
-    this._sqrtPriceX96 = params.sqrtPriceX96;
-    this._tick = params.tick;
+    this.totalValueLockedUSD = params.totalValueLockedUSD;
 
-    this._ticks = new Map(params.ticks);
+    this._ticks = new Map();
+  }
+
+  set liquidity(value: bigint) {
+    this._liquidity = value;
+  }
+  set sqrtPriceX96(value: bigint) {
+    this._sqrtPriceX96 = value;
+  }
+  set tick(value: number) {
+    this._tick = value;
   }
 
   get liquidity(): bigint {
