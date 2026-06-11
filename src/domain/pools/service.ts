@@ -7,9 +7,9 @@ import { UniswapV3PoolRepository } from "@/infrastucture/pools/repository/pool-r
 export interface UniswapV3PoolService {
   getTopPools(): Promise<UniswapV3Pool[]>;
   getPoolsNoCache(): Promise<UniswapV3Pool[]>;
-  add(pool: UniswapV3Pool): void;
-  get(address: string): UniswapV3Pool;
-  has(address: string): boolean;
+  addToPoolMap(pool: UniswapV3Pool): void;
+  getFromPoolMap(address: string): UniswapV3Pool;
+  addressExists(address: string): boolean;
   updateState(address: string, state: Partial<UniswapV3PoolState>): void;
   updateTick(
     address: string,
@@ -65,7 +65,7 @@ export class UniswapV3PoolServiceImpl implements UniswapV3PoolService {
 
         this.save(pool);
 
-        this.add(pool);
+        this.addToPoolMap(pool);
 
         return pool;
       }),
@@ -94,15 +94,15 @@ export class UniswapV3PoolServiceImpl implements UniswapV3PoolService {
     return await this.repository.save(pool);
   }
 
-  add(pool: UniswapV3Pool): void {
+  addToPoolMap(pool: UniswapV3Pool): void {
     this.poolMap.set(pool.address, pool);
   }
 
-  get(address: string): UniswapV3Pool {
+  getFromPoolMap(address: string): UniswapV3Pool {
     return this.getPoolOrThrow(address);
   }
 
-  has(address: string): boolean {
+  addressExists(address: string): boolean {
     return this.poolMap.has(address);
   }
 

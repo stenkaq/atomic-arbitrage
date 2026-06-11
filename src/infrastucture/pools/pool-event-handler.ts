@@ -87,7 +87,7 @@ export class UniswapV3PoolEventHandler {
     params: { sqrtPriceX96: bigint; liquidity: bigint; tick: number },
     blockNumber: bigint | null,
   ): void {
-    if (!this.poolService.has(address)) {
+    if (!this.poolService.addressExists(address)) {
       this.enqueueColdPool(address);
       return;
     }
@@ -109,7 +109,7 @@ export class UniswapV3PoolEventHandler {
     params: { tickLower: number; tickUpper: number; amount: bigint },
     blockNumber: bigint | null,
   ): void {
-    if (!this.poolService.has(address)) {
+    if (!this.poolService.addressExists(address)) {
       this.enqueueColdPool(address);
       return;
     }
@@ -132,7 +132,7 @@ export class UniswapV3PoolEventHandler {
     params: { tickLower: number; tickUpper: number; amount: bigint },
     blockNumber: bigint | null,
   ): void {
-    if (!this.poolService.has(address)) {
+    if (!this.poolService.addressExists(address)) {
       this.enqueueColdPool(address);
       return;
     }
@@ -154,7 +154,7 @@ export class UniswapV3PoolEventHandler {
     address: string,
     _params: { sqrtPriceX96: bigint; tick: number },
   ): void {
-    if (!this.poolService.has(address)) {
+    if (!this.poolService.addressExists(address)) {
       this.enqueueColdPool(address);
     }
   }
