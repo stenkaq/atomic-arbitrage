@@ -1,4 +1,4 @@
-import { bootstrap } from "./src/infrastucture/bootstrap.js";
+import { bootstrap } from "@/infrastucture/bootstrap";
 
 process.on("uncaughtException", (err) => {
   console.error("[Fatal] uncaughtException", err);

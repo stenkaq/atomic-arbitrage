@@ -1,8 +1,8 @@
-import { AppConfig } from "@/infrastucture/config/config.js";
+import { UniswapV3Pool } from "@/external/domain/pools/types";
+import { AppConfig } from "@/infrastucture/config/config";
+import { GraphStudioGatewayError } from "@/infrastucture/errors";
+import { formatUrl } from "@/utils/url-helper";
 import axios from "axios";
-import { formatUrl } from "@/utils/url-helper.js";
-import { GraphStudioGatewayError } from "../errors.js";
-import { UniswapV3Pool } from "@/external/domain/pools/types.js";
 
 export interface GraphStudioGateway {
   getTopPools(): Promise<UniswapV3Pool[]>;

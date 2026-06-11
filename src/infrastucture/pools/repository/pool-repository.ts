@@ -1,7 +1,7 @@
 import { Model } from "mongoose";
-import { CustomRepository } from "../../db/repository.js";
-import { UniswapV3Pool as Domain } from "../../../domain/pools/pool.js";
-import { UniswapV3Pool as Schema } from "@/infrastucture/db/models/pool-model.js";
+import { CustomRepository } from "@/infrastucture/db/repository";
+import { UniswapV3Pool as Domain } from "@/domain/pools/pool";
+import { UniswapV3Pool as Schema } from "@/infrastucture/db/models/pool-model";
 
 export class UniswapV3PoolRepository extends CustomRepository<Domain, Schema> {
   constructor(model: Model<Schema>) {

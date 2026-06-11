@@ -1,12 +1,12 @@
 import { UniswapV3PoolManager } from "@/domain/pools/pool-manager";
-import { appConfig } from "@/infrastucture/config/config.js";
-import { AlchemyGatewayImpl } from "./pools/alchemy-gateway.js";
-import { GraphStudioGatewayImpl } from "./pools/graph-studio-gateway.js";
-import { initDb } from "./db/bootstrap.js";
-import { UniswapV3PoolServiceImpl } from "@/domain/pools/service.js";
-import { UniswapV3PoolEventHandler } from "./pools/pool-event-handler.js";
-import { UniswapV3PoolRepository } from "./pools/repository/pool-repository.js";
-import { UniswapV3PoolModel } from "./db/models/pool-model.js";
+import { UniswapV3PoolServiceImpl } from "@/domain/pools/service";
+import { appConfig } from "@/infrastucture/config/config";
+import { initDb } from "@/infrastucture/db/bootstrap";
+import { UniswapV3PoolModel } from "@/infrastucture/db/models/pool-model";
+import { AlchemyGatewayImpl } from "@/infrastucture/pools/alchemy-gateway";
+import { GraphStudioGatewayImpl } from "@/infrastucture/pools/graph-studio-gateway";
+import { UniswapV3PoolEventHandler } from "@/infrastucture/pools/pool-event-handler";
+import { UniswapV3PoolRepository } from "@/infrastucture/pools/repository/pool-repository";
 
 export async function bootstrap() {
   await initDb(appConfig.mongoConfig.uri);

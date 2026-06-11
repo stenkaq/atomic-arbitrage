@@ -1,4 +1,5 @@
-import { UniswapV3Pool, UniswapV3PoolState } from "./pool";
+import { UniswapV3Pool, UniswapV3PoolState } from "@/domain/pools/pool";
+
 
 export class UniswapV3PoolManager {
   private readonly poolMap = new Map<string, UniswapV3Pool>();

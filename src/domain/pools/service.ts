@@ -1,8 +1,8 @@
-import { AlchemyGateway } from "@/infrastucture/pools/alchemy-gateway.js";
-import { GraphStudioGateway } from "@/infrastucture/pools/graph-studio-gateway.js";
-import { UniswapV3Pool } from "./pool.js";
-import { UniswapV3PoolRepository } from "@/infrastucture/pools/repository/pool-repository.js";
-import { UniswapV3PoolManager } from "./pool-manager.js";
+import { UniswapV3Pool } from "@/domain/pools/pool";
+import { UniswapV3PoolManager } from "@/domain/pools/pool-manager";
+import { AlchemyGateway } from "@/infrastucture/pools/alchemy-gateway";
+import { GraphStudioGateway } from "@/infrastucture/pools/graph-studio-gateway";
+import { UniswapV3PoolRepository } from "@/infrastucture/pools/repository/pool-repository";
 
 export interface UniswapV3PoolService {
   getPools(): Promise<void>;
